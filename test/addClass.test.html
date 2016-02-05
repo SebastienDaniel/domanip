@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- encoding must be set for mocha's special characters to render properly -->
+        <link rel="stylesheet" href="mocha.css"/>
+        <script src="mocha.js"></script>
+        <script src="chai.js"></script>
+        <script>
+            mocha.ui('bdd')
+            expect = chai.expect
+        </script>
+        <script type="text/javascript" src="domanip.js"></script>
+    </head>
+    <body>
+        <div id="mocha"></div>
+
+        <div id="testEl"></div>
+        <script>
+            var expect = chai.expect;
+
+            describe("addClass()", function() {
+                it("should add a css class", function() {
+                    var el = document.getElementById("testEl");
+
+                    domanip.addClass("class1", el);
+                    expect(el.className).to.eql("class1");
+
+                    domanip.addClass("class2", el);
+                    expect(el.className).to.eql("class1 class2");
+
+                    domanip.addClass("class3", el);
+                    expect(el.className).to.eql("class1 class2 class3");
+                });
+            });
+
+            describe("removeClass()", function() {
+                it("should remove class names", function() {
+                    var el = document.getElementById("testEl");
+                    el.className = "class1 class2 class3 class4 class5";
+
+                    domanip.removeClass("class5", el);
+                    expect(el.className).to.eql("class1 class2 class3 class4");
+
+                    domanip.removeClass("class1", el);
+                    expect(el.className).to.eql("class2 class3 class4");
+
+                    domanip.removeClass("class3", el);
+                    expect(el.className).to.eql("class2 class4");
+
+                    domanip.removeClass("class4", el);
+                    expect(el.className).to.eql("class2");
+
+                    domanip.removeClass("class2", el);
+                    expect(el.className).to.eql("");
+                })
+            });
+
+            describe("toggleClass()", function() {
+                it("should add a class", function() {
+                    var el = document.getElementById("testEl");
+                    el.className = "";
+
+                    domanip.toggleClass("class1", el);
+                    expect(el.className).to.eql("class1");
+
+                    domanip.toggleClass("class2", el);
+                    expect(el.className).to.eql("class1 class2");
+
+                    domanip.toggleClass("class3", el);
+                    expect(el.className).to.eql("class1 class2 class3");
+                });
+                it("should remove a class", function() {
+                    var el = document.getElementById("testEl");
+                    el.className = "class1 class2 class3";
+
+                    domanip.toggleClass("class1", el);
+                    expect(el.className).to.eql("class2 class3");
+
+                    domanip.toggleClass("class2", el);
+                    expect(el.className).to.eql("class3");
+
+                    domanip.toggleClass("class3", el);
+                    expect(el.className).to.eql("");
+                });
+                it("should replace a class", function() {
+                    var el = document.getElementById("testEl");
+                    el.className = "class1 class2 class3";
+
+                    domanip.toggleClass("class1", el, "class4");
+                    expect(el.className).to.eql("class4 class2 class3");
+
+                    domanip.toggleClass("class3", el, "class5");
+                    expect(el.className).to.eql("class4 class2 class5");
+
+                    domanip.toggleClass("class2", el, "class6");
+                    expect(el.className).to.eql("class4 class6 class5");
+                });
+            });
+        </script>
+        <script>
+            mocha.run()
+        </script>
+    </body>
+</html>

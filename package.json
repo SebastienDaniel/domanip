@@ -1,0 +1,35 @@
+{
+  "name": "domanip",
+  "description": "Utility functions for manipulating the DOM",
+  "keywords": [
+    "utility",
+    "DOM manipulation",
+    "HTML manipulation"
+  ],
+  "version": "1.0.1",
+  "author": {
+    "name": "Sebastien Daniel",
+    "email": "info@sebastiendaniel.ca",
+    "url": "http://www.sebastiendaniel.ca/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SebastienDaniel/domanip.git"
+  },
+  "bugs": {
+    "url": "https://www.github.com/SebastienDaniel/domanip/issues"
+  },
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "grunt-browserify": "^4.0.1",
+    "grunt-jsdoc": "^1.1.0",
+    "grunt-jsdoc-to-markdown": "^1.2.0",
+    "grunt-mocha-phantomjs": "^2.0.1"
+  },
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.12.0",
+    "grunt-jscs": "^2.7.0"
+  }
+}
