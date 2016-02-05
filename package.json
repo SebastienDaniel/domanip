@@ -6,7 +6,7 @@
     "DOM manipulation",
     "HTML manipulation"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Sebastien Daniel",
     "email": "info@sebastiendaniel.ca",
@@ -25,11 +25,10 @@
     "grunt-browserify": "^4.0.1",
     "grunt-jsdoc": "^1.1.0",
     "grunt-jsdoc-to-markdown": "^1.2.0",
-    "grunt-mocha-phantomjs": "^2.0.1"
-  },
-  "dependencies": {
+    "grunt-mocha-phantomjs": "^2.0.1",
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.12.0",
     "grunt-jscs": "^2.7.0"
-  }
+  },
+  "dependencies": {}
 }
