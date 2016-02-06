@@ -6,7 +6,7 @@
     "DOM manipulation",
     "HTML manipulation"
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": {
     "name": "Sebastien Daniel",
     "email": "info@sebastiendaniel.ca",
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://www.github.com/SebastienDaniel/domanip/issues"
   },
-  "main": "!src/scripts/index.js",
+  "main": "src/scripts/index.js",
   "license": "MIT",
   "private": false,
   "devDependencies": {
