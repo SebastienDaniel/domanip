@@ -3,5 +3,7 @@ module.exports = {
     removeClass: require("./removeClass"),
     toggleClass: require("./toggleClass"),
     ascendUntil: require("./ascendUntil"),
-    descendUntil: require("./descendUntil")
+    descendUntil: require("./descendUntil"),
+    getPosition: require("./getElementPosition"),
+    tests: require("./tests")
 };
