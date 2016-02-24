@@ -95,6 +95,19 @@
                     domanip.toggleClass("class2", el, "class6");
                     expect(el.className).to.eql("class4 class6 class5");
                 });
+                it("shouldn't duplicate a class", function() {
+                    var el = document.getElementById("testEl");
+                    el.className = "isActive";
+
+                    domanip.toggleClass("isActive", el, "isInactive");
+                    expect(el.className).to.eql("isInactive");
+
+                    domanip.toggleClass("isActive", el, "isInactive");
+                    expect(el.className).to.eql("isActive");
+
+                    domanip.toggleClass("isActive", el, "isInactive");
+                    expect(el.className).to.eql("isInactive");
+                });
             });
         </script>
         <script>

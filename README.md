@@ -9,6 +9,8 @@
 <dd></dd>
 <dt><a href="#removeClass">removeClass(c, e)</a> ⇒ <code>boolean</code></dt>
 <dd></dd>
+<dt><a href="#toggleClass">toggleClass(c1, e, [c2])</a> ⇒ <code>boolean</code></dt>
+<dd></dd>
 </dl>
 
 <a name="addClass"></a>
@@ -91,6 +93,30 @@
 </td>
     </tr><tr>
     <td>e</td><td><code>object</code></td><td><p>HTML element to affect</p>
+</td>
+    </tr>  </tbody>
+</table>
+
+<a name="toggleClass"></a>
+## toggleClass(c1, e, [c2]) ⇒ <code>boolean</code>
+**Kind**: global function  
+**Summary**: Toggles the provided className based on following conditions: - if className present on element, replace it with second provided className, otherwise remove it - if className not present on element, add it - if second className present on element, replace it with first className  
+**Returns**: <code>boolean</code> - - success of operation  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>c1</td><td><code>string</code></td><td><p>first className to toggle (add, remove or replace if c2 provided)</p>
+</td>
+    </tr><tr>
+    <td>e</td><td><code>Element</code></td><td><p>HTML element to affect</p>
+</td>
+    </tr><tr>
+    <td>[c2]</td><td><code>string</code></td><td><p>second className to use in replacement of c1 or to be replaced by c1</p>
 </td>
     </tr>  </tbody>
 </table>

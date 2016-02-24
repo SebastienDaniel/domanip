@@ -36,7 +36,7 @@ module.exports = function addClass(c, e) {
     return true;
 };
 
-},{"./errors/notHTML":4,"./errors/notValidClassName":5,"./tests/hasClass":9,"./tests/isElement":10,"./tests/isValidClassName":11}],2:[function(require,module,exports){
+},{"./errors/notHTML":4,"./errors/notValidClassName":5,"./tests/hasClass":9,"./tests/isElement":13,"./tests/isValidClassName":14}],2:[function(require,module,exports){
 var notHTML = require("./errors/notHTML"),
     isElement = require("./tests/isElement");
 
@@ -68,7 +68,7 @@ module.exports = function ascendUntil(e, c) {
     return goUp(e, c);
 };
 
-},{"./errors/notHTML":4,"./tests/isElement":10}],3:[function(require,module,exports){
+},{"./errors/notHTML":4,"./tests/isElement":13}],3:[function(require,module,exports){
 var notHTML = require("./errors/notHTML"),
     isElement = require("./tests/isElement");
 
@@ -111,7 +111,7 @@ module.exports = function descendUntil(e, c) {
     return goDown(e, c);
 };
 
-},{"./errors/notHTML":4,"./tests/isElement":10}],4:[function(require,module,exports){
+},{"./errors/notHTML":4,"./tests/isElement":13}],4:[function(require,module,exports){
 module.exports = function notHTML(func, el) {
     func = func || "notHTML";
 
@@ -131,7 +131,7 @@ module.exports = function getElementPosition(e) {
         yPosition = 0;
 
     if (typeof e !== "object" || e.nodeType !== 1) {
-        throw TypeError("getElementPosition expects a HTMl e as argument. Provided\n" + e + " (" + typeof e + ")");
+        throw TypeError("getElementPosition expects HTMl element as argument. Provided\n" + e + " (" + typeof e + ")");
     }
 
     while (e) {
@@ -149,10 +149,11 @@ module.exports = {
     toggleClass: require("./toggleClass"),
     ascendUntil: require("./ascendUntil"),
     descendUntil: require("./descendUntil"),
-    getPosition: require("./getElementPosition")
+    getPosition: require("./getElementPosition"),
+    tests: require("./tests")
 };
 
-},{"./addClass":1,"./ascendUntil":2,"./descendUntil":3,"./getElementPosition":6,"./removeClass":8,"./toggleClass":12}],8:[function(require,module,exports){
+},{"./addClass":1,"./ascendUntil":2,"./descendUntil":3,"./getElementPosition":6,"./removeClass":8,"./tests":10,"./toggleClass":15}],8:[function(require,module,exports){
 var isValidClassName = require("./tests/isValidClassName"),
     notHTML = require("./errors/notHTML"),
     notClassName = require("./errors/notValidClassName"),
@@ -190,12 +191,43 @@ module.exports = function removeClass(c, e) {
     }
 };
 
-},{"./errors/notHTML":4,"./errors/notValidClassName":5,"./tests/hasClass":9,"./tests/isElement":10,"./tests/isValidClassName":11}],9:[function(require,module,exports){
+},{"./errors/notHTML":4,"./errors/notValidClassName":5,"./tests/hasClass":9,"./tests/isElement":13,"./tests/isValidClassName":14}],9:[function(require,module,exports){
 module.exports = function hasClass(c, el) {
     return new RegExp("(?:^| )" + c + "(?:$| )").test(el.className);
 };
 
 },{}],10:[function(require,module,exports){
+module.exports = {
+    hasClass: require("./hasClass"),
+    isComment: require("./isComment"),
+    isDocument: require("./isDocument"),
+    isElement: require("./isElement"),
+    isValidClassName: require("./isValidClassName")
+};
+
+},{"./hasClass":9,"./isComment":11,"./isDocument":12,"./isElement":13,"./isValidClassName":14}],11:[function(require,module,exports){
+/**
+ * @memberof utilities
+ * @summary checks if the provided object is an HTMLelement
+ * @param o {object}
+ * @returns {boolean}
+ */
+module.exports = function isHTMLElement(o) {
+    return typeof o === "object" && o.nodeType === 8;
+};
+
+},{}],12:[function(require,module,exports){
+/**
+ * @memberof utilities
+ * @summary checks if the provided object is an HTMLelement
+ * @param o {object}
+ * @returns {boolean}
+ */
+module.exports = function isHTMLElement(o) {
+    return typeof o === "object" && o.nodeType === 9;
+};
+
+},{}],13:[function(require,module,exports){
 /**
  * @memberof utilities
  * @summary checks if the provided object is an HTMLelement
@@ -206,7 +238,7 @@ module.exports = function isHTMLElement(o) {
     return typeof o === "object" && o.nodeType === 1;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * @summary checks if the provided string is a valid CSS class name
  * @param str {string} string to test against
@@ -216,43 +248,73 @@ module.exports = function isValidClassName(str) {
     return new RegExp("^[a-zA-Z]+[0-9a-zA-Z\-\_]*$").test(str);
 };
 
-},{}],12:[function(require,module,exports){
-var isValidClassName = require("./tests/isValidClassName"),
-    notHTML = require("./errors/notHTML"),
-    notClassName = require("./errors/notValidClassName"),
+},{}],15:[function(require,module,exports){
+var notHTML = require("./errors/notHTML"),
     hasClass = require("./tests/hasClass"),
     addClass = require("./addClass"),
     removeClass = require("./removeClass"),
     isElement = require("./tests/isElement");
 
+/**
+ * Toggles the provided className based on following conditions:
+ * - if className present on element, replace it with second provided className, otherwise remove it
+ * - if className not present on element, add it
+ * - if second className present on element, replace it with first className
+ * @param {string} c1 - first className to toggle (add, remove or replace if c2 provided)
+ * @param {Element} e - HTML element to affect
+ * @param {string} [c2] - second className to use in replacement of c1 or to be replaced by c1
+ * @returns {boolean} - success of operation
+ */
 module.exports = function swapClass(c1, e, c2) {
+    var hasC1,
+        hasC2;
+
+    if (!c1 || typeof c1 !== "string") {
+        throw Error("swapClass expects a string className. Provided\n" + c1 + " (" + typeof c1 + ")");
+    }
+
     if (!isElement(e)) {
-        throw notHTML("addClass", e);
+        throw notHTML("swapClass", e);
     }
 
-    if (!isValidClassName(c1)) {
-        throw notClassName("addClass", c1);
+    hasC1 = hasClass(c1, e);
+    hasC2 = hasClass(c2, e);
+
+    // if both class names are on element
+    if (hasC1 && hasC2) {
+        throw new Error("toggleClass cannot toggle when both class names are present on element. \nclasses: " + e.className + "\ntoggling:" + c1 + ", " + c2 + "\nelement: " + e);
     }
 
-    if (!isValidClassName(c2)) {
-        throw notClassName("addClass", c2);
-    }
-
-    // if class is present
-    if (hasClass(c1, e)) {
-        // if replacement class provided, replace with that, else remove class
+    // if c1, toggle it
+    if (hasC1) {
         if (c2) {
+            // replace with that, else remove class
             e.className = e.className.replace(c1, c2);
         } else {
             removeClass(c1, e);
         }
 
         return true;
-    } else {
+    }
+
+    // if c2, toggle it
+    if (hasC2) {
+        if (c1) {
+            // replace with that, else remove class
+            e.className = e.className.replace(c2, c1);
+        } else {
+            removeClass(c1, e);
+        }
+
+        return true;
+    }
+
+    // if neither class present, add first class
+    if (!hasC1 && !hasC2) {
         addClass(c1, e);
-        return false;
+        return true;
     }
 };
 
-},{"./addClass":1,"./errors/notHTML":4,"./errors/notValidClassName":5,"./removeClass":8,"./tests/hasClass":9,"./tests/isElement":10,"./tests/isValidClassName":11}]},{},[7])(7)
+},{"./addClass":1,"./errors/notHTML":4,"./removeClass":8,"./tests/hasClass":9,"./tests/isElement":13}]},{},[7])(7)
 });
